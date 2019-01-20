@@ -22,10 +22,24 @@ const Books = connection.define("book", {
   }
 });
 
-router.get("/", (req, res) => {
-  Books.findAll({ raw: false }).then(books => {
-    res.send({ data: books });
-  });
-});
+router
+  .route("/")
+  .get((req, res) => {
+    Books.findAll({ raw: false }).then(books => {
+      res.send({ data: books });
+    });
+  })
 
+  .post((req, res) => {
+    const newBooks = {
+      title: req.body.title,
+      author: req.body.author,
+      author_id: req.body.author_id
+    };
+
+    Books.create(newBooks).then(data => {
+      res.send({ data });
+    });
+  });
+  
 module.exports = router;

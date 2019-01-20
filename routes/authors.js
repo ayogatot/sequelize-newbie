@@ -17,10 +17,23 @@ const Author = connection.define("author", {
   }
 });
 
-router.get("/", (req, res) => {
-  Author.findAll({ raw: true }).then(users => {
-    res.send({ data: users });
-  });
-});
+router
+  .route("/")
 
+  .get((req, res) => {
+    Author.findAll({ raw: true }).then(users => {
+      res.send({ data: users });
+    });
+  })
+
+  .post((req, res) => {
+    const newAuthor = {
+      author_id: req.body.author_id,
+      name: req.body.name
+    };
+    Author.create(newAuthor).then(data => {
+      res.send({ data });
+    });
+  });
+  
 module.exports = router;
