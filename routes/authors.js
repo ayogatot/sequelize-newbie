@@ -17,4 +17,10 @@ const Author = connection.define("author", {
   }
 });
 
-module.exports = router
+router.get("/", (req, res) => {
+  Author.findAll({ raw: true }).then(users => {
+    res.send({ data: users });
+  });
+});
+
+module.exports = router;
